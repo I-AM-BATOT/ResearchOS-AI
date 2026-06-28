@@ -1,0 +1,28 @@
+graph TB
+    MemoryAgent[Memory Agent] --> MemoryStore[MemoryStore facade]
+    MemoryStore -->|chromadb installed| Chroma[ChromaDB PersistentClient]
+    MemoryStore -->|fallback| SQLite[SQLite backend]
+
+    Chroma --> Embeddings[Embedding-based semantic search]
+    SQLite --> Keyword[Keyword-overlap ranked search]
+
+    subgraph Operations
+        Store[store]
+        Retrieve[retrieve / search]
+        Update[update]
+        Delete[delete]
+        List[list_all]
+    end
+
+    MemoryStore --> Operations
+
+    subgraph Kinds["Memory kinds"]
+        K1[paper_summary]
+        K2[research_interest]
+        K3[generated_output]
+        K4[observation]
+        K5[conversation]
+    end
+
+    Operations --> Kinds
+    Kinds --> Dashboard[Memory Dashboard UI]

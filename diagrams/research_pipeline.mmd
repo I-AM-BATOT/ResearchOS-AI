@@ -1,0 +1,15 @@
+flowchart TD
+    Start([PDF Upload]) --> Validate{Valid PDF?}
+    Validate -->|No| Reject[Reject with reason]
+    Validate -->|Yes| Extract[Paper Reader: extract text + segment sections]
+    Extract --> ScanSecurity[Security: injection scan + PII mask on extracted text]
+    ScanSecurity --> Explain[Research Explainer: 4-level summaries]
+    ScanSecurity --> FactCheck[Fact Checker: claim extraction + verification]
+    FactCheck --> Related[Related Work: arXiv + Semantic Scholar discovery]
+    Related --> Gap[Research Gap: weaknesses + novel ideas]
+    Explain --> Quiz[Quiz/Teaching: flashcards + MCQs + study guide]
+    Gap --> Presentation[Presentation: slides + speaker notes + poster]
+    Quiz --> Aggregate[Coordinator: aggregate all outputs]
+    Presentation --> Aggregate
+    Aggregate --> Memory[Memory Agent: store summary + insights]
+    Memory --> Report([Final report + human-review notice])

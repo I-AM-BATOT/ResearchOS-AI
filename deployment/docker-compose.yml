@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "8501:8501"
+    env_file:
+      - ../.env
+    volumes:
+      - researchos_memory:/app/.researchos_memory
+    depends_on:
+      - mcp
+
+  mcp:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile.mcp
+    ports:
+      - "8765:8765"
+    env_file:
+      - ../.env
+
+volumes:
+  researchos_memory:

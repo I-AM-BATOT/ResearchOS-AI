@@ -1,0 +1,32 @@
+sequenceDiagram
+    participant U as User
+    participant C as Coordinator
+    participant PR as Paper Reader
+    participant RE as Research Explainer
+    participant FC as Fact Checker
+    participant RW as Related Work
+    participant RG as Research Gap
+    participant QT as Quiz/Teaching
+    participant PA as Presentation
+    participant M as Memory
+
+    U->>C: Upload PDF / request analysis
+    C->>C: PLAN execution across agents
+    C->>PR: DELEGATE: extract & segment paper
+    PR->>PR: EXECUTE -> VERIFY -> REFLECT
+    PR->>C: Structured paper
+
+    C->>RE: DELEGATE: generate summaries
+    RE->>C: Executive / Technical / Beginner / ELI5
+
+    C->>FC: DELEGATE: verify claims
+    FC->>C: Verified / Questionable / Needs Review + confidence
+
+    FC->>RW: HANDOFF: discover related work
+    RW->>RG: HANDOFF: identify gaps from related context
+    RG->>QT: (parallel) Coordinator dispatches study materials
+    RG->>PA: HANDOFF: build presentation from gap analysis
+
+    PA->>C: Final presentation pack
+    C->>M: STORE: paper summary + insights
+    C->>U: RESPOND: aggregated final report + human-review notice

@@ -1,0 +1,34 @@
+graph LR
+    subgraph Clients
+        Streamlit[Streamlit App in-process calls]
+        ExternalClient[Any MCP-compatible client]
+    end
+
+    subgraph MCPServer["MCP Server - FastAPI - mcp/server.py"]
+        Health[/health/]
+        Discovery[/mcp/tools/]
+        Dispatch[/mcp/call/]
+        Direct[Direct GET routes]
+    end
+
+    subgraph Tools["mcp/tools.py"]
+        T1[search_arxiv]
+        T2[search_semantic_scholar]
+        T3[retrieve_citation_graph]
+        T4[verify_research_claim]
+        T5[compare_papers]
+        T6[generate_bibliography]
+        T7[extract_metadata]
+    end
+
+    subgraph Fallback["Graceful degradation"]
+        Mock[Deterministic mock data]
+    end
+
+    Streamlit -->|in-process call, no HTTP| Tools
+    ExternalClient -->|HTTP JSON| Dispatch
+    Dispatch --> Tools
+    Direct --> Tools
+    Tools -->|network OK| ArxivAPI[arXiv API]
+    Tools -->|network OK| ScholarAPI[Semantic Scholar API]
+    Tools -->|network unavailable / error| Mock

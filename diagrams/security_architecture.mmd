@@ -1,0 +1,13 @@
+graph TB
+    Input[User input: chat / PDF upload / MCP request] --> Validation[Input Validation]
+    Validation -->|reject| Rejected[Rejected with reason]
+    Validation -->|pass| InjectionScan[Prompt Injection Heuristic Scan]
+    InjectionScan -->|suspicious| Sandbox[Wrap as untrusted data block]
+    InjectionScan -->|clean| Direct[Pass through]
+    Sandbox --> LLM[LLM Call]
+    Direct --> LLM
+    LLM --> Output[Agent output]
+    Output --> PIIMask[PII Masking before logging]
+    PIIMask --> SafeLog[Safe Logging - secrets + PII scrubbed]
+    Output --> HITL[Human-in-the-loop notice attached]
+    HITL --> UIOutput[Shown to user]

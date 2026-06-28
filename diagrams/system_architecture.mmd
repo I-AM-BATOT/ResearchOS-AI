@@ -1,0 +1,73 @@
+graph TB
+    subgraph UI["Streamlit Frontend"]
+        Home[Home]
+        Workspace[Research Workspace]
+        Analysis[Paper Analysis]
+        Related[Related Work Explorer]
+        LitReview[Literature Review Builder]
+        FactCheck[Fact Checking Center]
+        Learning[Learning Center]
+        Presentation[Presentation Builder]
+        MemoryDash[Memory Dashboard]
+        SecurityDash[Security Dashboard]
+        Architecture[Architecture]
+    end
+
+    subgraph AgentLayer["Multi-Agent System"]
+        Coordinator[Coordinator Agent]
+        PaperReader[Paper Reader Agent]
+        Explainer[Research Explainer Agent]
+        FactChecker[Fact Checker Agent]
+        RelatedWork[Related Work Agent]
+        LitReviewAgent[Literature Review Agent]
+        ResearchGap[Research Gap Agent]
+        QuizTeaching[Quiz and Teaching Agent]
+        PresentationAgent[Presentation Agent]
+        MemoryAgent[Memory Agent]
+    end
+
+    subgraph SkillsLayer["Agent Skills"]
+        SummarizationSkill[Summarization Skill]
+        ResearchSkill[Research Skill]
+        TeachingSkill[Teaching Skill]
+        PresentationSkill[Presentation Skill]
+        FactVerificationSkill[Fact Verification Skill]
+    end
+
+    subgraph ToolLayer["MCP Server (FastAPI)"]
+        SearchArxiv[search_arxiv]
+        SearchScholar[search_semantic_scholar]
+        CitationGraph[retrieve_citation_graph]
+        VerifyClaim[verify_research_claim]
+        ComparePapers[compare_papers]
+        GenBib[generate_bibliography]
+        ExtractMeta[extract_metadata]
+    end
+
+    subgraph MemoryLayer["Persistent Memory"]
+        Chroma[ChromaDB]
+        SQLite[SQLite fallback]
+    end
+
+    subgraph SecurityLayer["Security"]
+        PromptInjection[Prompt Injection Defense]
+        PII[PII Masking]
+        Validation[Input Validation]
+        SafeLogging[Safe Logging]
+    end
+
+    subgraph External["Live Research Sources"]
+        ArxivAPI[arXiv API]
+        ScholarAPI[Semantic Scholar API]
+        Gemini[Gemini 2.5 Flash]
+    end
+
+    UI --> Coordinator
+    Coordinator --> PaperReader & Explainer & FactChecker & RelatedWork & LitReviewAgent & ResearchGap & QuizTeaching & PresentationAgent & MemoryAgent
+    AgentLayer --> SkillsLayer
+    SkillsLayer --> ToolLayer
+    ToolLayer --> ArxivAPI & ScholarAPI
+    AgentLayer --> Gemini
+    MemoryAgent --> MemoryLayer
+    UI -.-> SecurityLayer
+    AgentLayer -.-> SecurityLayer
