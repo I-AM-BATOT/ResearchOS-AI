@@ -29,7 +29,8 @@ ResearchOS AI combines multiple AI agents that collaborate to analyze academic p
 
 <br>
 
-<img src="YOUR_SCREENSHOT.png" width="100%">
+<img width="1920" height="1080" alt="Screenshot (263)" src="https://github.com/user-attachments/assets/434bda33-6a50-4f9f-a81d-bb6900007997" />
+
 
 </div>
 
